@@ -1,75 +1,81 @@
-import { Sparkles, Smile, Wrench, Pill } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardDescription } from './ui/card';
+import { motion } from "framer-motion";
+import {
+  Sparkles,
+  Smile,
+  ShieldPlus,
+  AlertCircle,
+} from "lucide-react";
+
+const services = [
+  {
+    title: "Teeth Cleaning",
+    desc: "Professional cleaning for healthy gums and fresh breath.",
+    icon: Sparkles,
+  },
+  {
+    title: "Teeth Whitening",
+    desc: "Safe whitening treatments for a brighter smile.",
+    icon: Smile,
+  },
+  {
+    title: "Dental Implants",
+    desc: "Permanent solutions to restore missing teeth.",
+    icon: ShieldPlus,
+  },
+  {
+    title: "Emergency Dental Care",
+    desc: "Immediate care for pain, infections, or accidents.",
+    icon: AlertCircle,
+  },
+];
 
 export const Services = () => {
-  const services = [
-    {
-      icon: Sparkles,
-      title: 'Teeth Whitening',
-      description: 'Professional whitening treatments that brighten your smile safely and effectively. Get visible results in just one session.',
-      color: 'bg-blue-100 text-blue-600'
-    },
-    {
-      icon: Smile,
-      title: 'Orthodontics',
-      description: 'Modern braces and clear aligners to straighten teeth and improve your bite. Customized treatment plans for all ages.',
-      color: 'bg-teal-100 text-teal-600'
-    },
-    {
-      icon: Wrench,
-      title: 'Dental Implants',
-      description: 'Permanent solution for missing teeth that look and feel natural. Advanced implant technology for lasting results.',
-      color: 'bg-indigo-100 text-indigo-600'
-    },
-    {
-      icon: Pill,
-      title: 'Cosmetic Dentistry',
-      description: 'Transform your smile with veneers, bonding, and contouring. Achieve the perfect smile you\'ve always wanted.',
-      color: 'bg-purple-100 text-purple-600'
-    }
-  ];
-
   return (
-    <section id="services" className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-            Our Dental Services
+    <section id="services" className="py-28 bg-gray-50">
+      <div className="max-w-6xl mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-3xl font-bold text-gray-900">
+            Our Services
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Comprehensive dental care tailored to your unique needs. From routine checkups to advanced procedures.
+          <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
+            Comprehensive dental care using modern techniques and trusted
+            medical standards.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {services.map((service, index) => {
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {services.map((service, i) => {
             const Icon = service.icon;
+
             return (
-              <Card 
-                key={index}
-                className="group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer border-0 bg-white"
+              <motion.div
+                key={service.title}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all duration-300"
               >
-                <CardHeader className="space-y-4">
-                  <div className={`inline-flex items-center justify-center w-14 h-14 rounded-xl ${service.color} group-hover:scale-110 transition-transform duration-300`}>
-                    <Icon className="w-7 h-7" />
-                  </div>
-                  <CardTitle className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
-                    {service.title}
-                  </CardTitle>
-                  <CardDescription className="text-gray-600 leading-relaxed">
-                    {service.description}
-                  </CardDescription>
-                </CardHeader>
-              </Card>
+                <div className="w-14 h-14 mb-6 rounded-full bg-blue-50 flex items-center justify-center">
+                  <Icon className="w-6 h-6 text-blue-600" />
+                </div>
+
+                <h3 className="font-bold text-lg text-gray-900 mb-2">
+                  {service.title}
+                </h3>
+
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  {service.desc}
+                </p>
+              </motion.div>
             );
           })}
-        </div>
-
-        <div className="text-center mt-12">
-          <p className="text-gray-600 mb-6">Don't see what you're looking for?</p>
-          <button className="text-blue-600 font-semibold hover:text-blue-700 transition-colors underline decoration-2 underline-offset-4">
-            View All Services
-          </button>
         </div>
       </div>
     </section>
