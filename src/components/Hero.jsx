@@ -23,7 +23,7 @@ export const Hero = () => {
         <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
           <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold mb-6">
             <ShieldCheck className="w-4 h-4" />
-            Trusted Dental Clinic in Beirut
+            Trusted Dental Clinic in Lebanon
           </div>
 
           <h1 className="text-4xl lg:text-5xl font-bold leading-tight text-gray-900">
