@@ -1,23 +1,62 @@
-import { motion } from "framer-motion";
-import { Phone, MessageSquare } from "lucide-react";
+import { Phone, MessageSquare, MapPin } from "lucide-react";
+import { Reveal } from "./Reveal";
+import { Eyebrow } from "./Eyebrow";
 
-export const Contact = () => {
-  return (
-    <section id="contact" className="py-28 bg-gradient-to-b from-white to-blue-50 overflow-hidden">
-      <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="max-w-4xl mx-auto text-center px-4">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">Book Your Appointment Today</h2>
-        <p className="text-gray-600 mb-12 max-w-xl mx-auto">Fast and convenient booking via WhatsApp or phone. Our team will respond promptly to schedule your appointment.</p>
+const methods = [
+  { icon: Phone, label: "Phone", value: "+961 701 23456", href: "tel:+96170123456" },
+  { icon: MessageSquare, label: "WhatsApp", value: "+961 701 23456", href: "https://wa.me/96170123456" },
+  { icon: MapPin, label: "Location", value: "Lebanon" },
+];
 
-        <div className="flex flex-col sm:flex-row justify-center gap-6">
-          <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} href="https://wa.me/96170123456" className="flex items-center justify-center gap-3 bg-green-500 hover:bg-green-600 text-white px-10 py-6 rounded-2xl font-semibold shadow-lg transition-all duration-300">
-            <MessageSquare className="w-5 h-5" /> WhatsApp Now
-          </motion.a>
+export const Contact = () => (
+  <section id="contact" className="border-t border-line bg-white">
+    <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24 lg:py-28">
+      <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
+        <Reveal>
+          <Eyebrow>Contact</Eyebrow>
+          <h2 className="mt-5 font-display text-3xl font-medium leading-tight tracking-tight text-ink sm:text-4xl">
+            Get in touch with the <em className="italic text-pine-700">clinic</em>.
+          </h2>
+          <p className="mt-6 max-w-md leading-relaxed text-muted">
+            The easiest way to reach us is by phone or WhatsApp. Send us a message and we will get
+            back to you as soon as we can.
+          </p>
 
-          <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} href="tel:+96170123456" className="flex items-center justify-center gap-3 border border-blue-600 text-blue-600 px-10 py-6 rounded-2xl font-semibold shadow-sm hover:shadow-lg hover:bg-blue-50 transition-all duration-300">
-            <Phone className="w-5 h-5" /> Call Clinic
-          </motion.a>
-        </div>
-      </motion.div>
-    </section>
-  );
-};
+          <div className="mt-10 space-y-6">
+            {methods.map((method) => (
+              <div key={method.label} className="flex items-center gap-4">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-pine-50">
+                  <method.icon className="h-[18px] w-[18px] text-pine-700" aria-hidden="true" />
+                </span>
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wider text-muted">
+                    {method.label}
+                  </p>
+                  {method.href ? (
+                    <a
+                      href={method.href}
+                      className="text-base font-medium text-ink transition-colors hover:text-pine-700"
+                    >
+                      {method.value}
+                    </a>
+                  ) : (
+                    <p className="text-base font-medium text-ink">{method.value}</p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.1} className="hidden lg:block">
+          <img
+            src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=1200&q=80"
+            alt="Dentist consulting with a patient at SmileCare dental clinic"
+            className="h-full w-full rounded-2xl object-cover"
+            loading="lazy"
+          />
+        </Reveal>
+      </div>
+    </div>
+  </section>
+);

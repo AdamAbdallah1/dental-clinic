@@ -1,83 +1,67 @@
-import { motion } from "framer-motion";
-import {
-  Sparkles,
-  Smile,
-  ShieldPlus,
-  AlertCircle,
-} from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import { Reveal } from "./Reveal";
+import { Eyebrow } from "./Eyebrow";
 
-const services = [
+const treatments = [
   {
-    title: "Teeth Cleaning",
-    desc: "Professional cleaning for healthy gums and fresh breath.",
-    icon: Sparkles,
+    name: "Teeth Cleaning",
+    desc: "Professional cleaning that keeps your teeth and gums healthy — and your breath fresh.",
   },
   {
-    title: "Teeth Whitening",
-    desc: "Safe whitening treatments for a brighter smile.",
-    icon: Smile,
+    name: "Teeth Whitening",
+    desc: "Safe, professional whitening treatments for a naturally brighter smile.",
   },
   {
-    title: "Dental Implants",
-    desc: "Permanent solutions to restore missing teeth.",
-    icon: ShieldPlus,
+    name: "Dental Implants",
+    desc: "Permanent, natural-looking replacements for missing teeth.",
   },
   {
-    title: "Emergency Dental Care",
-    desc: "Immediate care for pain, infections, or accidents.",
-    icon: AlertCircle,
+    name: "Emergency Dental Care",
+    desc: "Prompt care for pain, infections, and dental accidents.",
   },
 ];
 
-export const Services = () => {
-  return (
-    <section id="services" className="py-28 bg-gray-50">
-      <div className="max-w-6xl mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl font-bold text-gray-900">
-            Our Services
-          </h2>
-          <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
-            Comprehensive dental care using modern techniques and trusted
-            medical standards.
-          </p>
-        </motion.div>
+export const Services = () => (
+  <section id="treatments" className="border-t border-line bg-white">
+    <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24 lg:py-28">
+      <Reveal className="max-w-2xl">
+        <Eyebrow>Treatments</Eyebrow>
+        <h2 className="mt-5 font-display text-3xl font-medium leading-tight tracking-tight text-ink sm:text-4xl">
+          Comprehensive care, <em className="italic text-pine-700">under one roof</em>.
+        </h2>
+        <p className="mt-6 leading-relaxed text-muted">
+          From routine preventive care to advanced restorative work, we offer a focused range of
+          treatments to keep your smile healthy.
+        </p>
+      </Reveal>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {services.map((service, i) => {
-            const Icon = service.icon;
-
-            return (
-              <motion.div
-                key={service.title}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all duration-300"
-              >
-                <div className="w-14 h-14 mb-6 rounded-full bg-blue-50 flex items-center justify-center">
-                  <Icon className="w-6 h-6 text-blue-600" />
-                </div>
-
-                <h3 className="font-bold text-lg text-gray-900 mb-2">
-                  {service.title}
-                </h3>
-
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  {service.desc}
-                </p>
-              </motion.div>
-            );
-          })}
-        </div>
+      <div className="mt-12">
+        {treatments.map((treatment, i) => (
+          <Reveal key={treatment.name} delay={i * 0.05}>
+            <a
+              href="#contact"
+              aria-label={`Book an appointment for ${treatment.name}`}
+              className="group flex items-baseline gap-6 border-t border-line py-8 sm:gap-10"
+            >
+              <span className="w-8 font-display text-sm text-pine-700" aria-hidden="true">
+                0{i + 1}
+              </span>
+              <span className="flex-1">
+                <span className="font-display text-2xl font-medium text-ink">
+                  {treatment.name}
+                </span>
+                <span className="mt-2 block max-w-xl leading-relaxed text-muted">
+                  {treatment.desc}
+                </span>
+              </span>
+              <ArrowUpRight
+                className="h-5 w-5 shrink-0 self-center text-ink/25 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-pine-700"
+                aria-hidden="true"
+              />
+            </a>
+          </Reveal>
+        ))}
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);

@@ -1,110 +1,124 @@
-import { useState, useEffect } from 'react';
-import { Menu, X, Phone } from 'lucide-react';
-import { Button } from './ui/button';
+import { useEffect, useState } from "react";
+import { Menu, X, Plus, Phone } from "lucide-react";
+
+const navItems = [
+  { label: "Treatments", id: "treatments" },
+  { label: "About", id: "about" },
+  { label: "Why Us", id: "why-us" },
+  { label: "Contact", id: "contact" },
+];
 
 export const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const scrollToSection = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-    setIsMenuOpen(false);
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  const go = (id) => {
+    setOpen(false);
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const navItems = [
-    { label: 'Home', id: 'home' },
-    { label: 'Services', id: 'services' },
-    { label: 'Contact', id: 'contact' },
-  ];
-
   return (
-    <header
-      className={`sticky top-0 z-50 backdrop-blur-md bg-white/70 shadow-md transition-all duration-300 ${
-        scrollY > 50 ? 'shadow-xl' : ''
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
-          <button
-            onClick={() => scrollToSection('home')}
-            className="text-2xl font-bold text-gray-900 hover:text-blue-600 transition-colors"
+    <>
+      <div className="bg-pine-900 text-cream/90">
+        <div className="mx-auto flex h-9 max-w-6xl items-center justify-between px-5 text-xs sm:px-8">
+          <a
+            href="tel:+96170123456"
+            className="flex items-center gap-2 transition-colors hover:text-cream"
           >
-            SmileCare
-          </button>
-
-          <nav className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
-                className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
-              >
-                {item.label}
-              </button>
-            ))}
-          </nav>
-
-          <div className="hidden md:flex items-center gap-4">
-            <a
-              href="tel:+96170123456"
-              className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-colors"
-            >
-              <Phone className="w-5 h-5" />
-              <span className="font-semibold">(961) 701-23456</span>
-            </a>
-            <Button
-              onClick={() => scrollToSection('contact')}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-all duration-300"
-            >
-              Book Now
-            </Button>
-          </div>
-
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 text-gray-700 hover:text-blue-600 transition-colors"
-          >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+            <Phone className="h-3 w-3" aria-hidden="true" />
+            <span>+961 701 23456</span>
+          </a>
+          <span className="hidden text-cream/60 sm:block">Dental Clinic — Lebanon</span>
         </div>
+      </div>
 
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-200">
-            <nav className="flex flex-col space-y-4">
+      <header
+        className={`sticky top-0 z-40 border-b bg-cream/95 backdrop-blur-sm transition-colors duration-300 ${
+          scrolled ? "border-line" : "border-transparent"
+        }`}
+      >
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+          <div className="flex h-16 items-center justify-between sm:h-[4.5rem]">
+            <button
+              onClick={() => go("home")}
+              className="flex items-center gap-2.5"
+              aria-label="SmileCare — back to top"
+            >
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-pine-700">
+                <Plus className="h-4 w-4 text-cream" strokeWidth={2.5} aria-hidden="true" />
+              </span>
+              <span className="font-display text-xl font-semibold tracking-tight text-ink">
+                SmileCare
+              </span>
+            </button>
+
+            <nav className="hidden items-center gap-8 md:flex" aria-label="Primary">
               {navItems.map((item) => (
                 <button
                   key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className="text-left text-gray-700 hover:text-blue-600 font-medium transition-colors py-2"
+                  onClick={() => go(item.id)}
+                  className="text-sm font-medium text-ink/70 transition-colors hover:text-ink"
                 >
                   {item.label}
                 </button>
               ))}
-              <div className="pt-4 border-t border-gray-200">
-                <a
-                  href="tel:+96170123456"
-                  className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-colors py-2"
+            </nav>
+
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => go("contact")}
+                className="hidden rounded-full bg-pine-700 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-pine-800 md:inline-flex"
+              >
+                Book Appointment
+              </button>
+              <button
+                onClick={() => setOpen(!open)}
+                className="flex h-10 w-10 items-center justify-center rounded-full text-ink transition-colors hover:bg-ink/5 md:hidden"
+                aria-label={open ? "Close menu" : "Open menu"}
+                aria-expanded={open}
+              >
+                {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {open && (
+          <div className="border-t border-line bg-cream md:hidden">
+            <nav className="mx-auto flex max-w-6xl flex-col px-5 py-2 sm:px-8" aria-label="Mobile">
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => go(item.id)}
+                  className="border-b border-line py-4 text-left text-base font-medium text-ink/80 transition-colors hover:text-ink"
                 >
-                  <Phone className="w-5 h-5" />
-                  <span className="font-semibold">(961) 701-23456</span>
-                </a>
-                <Button
-                  onClick={() => scrollToSection('contact')}
-                  className="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-all duration-300"
-                >
-                  Book Now
-                </Button>
-              </div>
+                  {item.label}
+                </button>
+              ))}
+              <button
+                onClick={() => go("contact")}
+                className="mb-4 mt-4 rounded-full bg-pine-700 px-6 py-3.5 text-sm font-medium text-white transition-colors hover:bg-pine-800"
+              >
+                Book Appointment
+              </button>
             </nav>
           </div>
         )}
-      </div>
-    </header>
+      </header>
+    </>
   );
 };
